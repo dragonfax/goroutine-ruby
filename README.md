@@ -7,4 +7,9 @@ A very naive implementation.
 * see the examples provided.
 
 
+# TODO
 
+* Make the scheduler invisibile (no $scheduler.run)
+* Use a thread cache for the non_blocking call Threads
+* Find a real async HTTP Request API
+* Implement actual 'select' (epoll) based Select/Cases

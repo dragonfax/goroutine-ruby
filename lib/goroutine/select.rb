@@ -29,6 +29,7 @@ class BaseCase
   end
 end
 
+# just wait for a value to be set
 class ValueCase
 
   attr_reader :value
@@ -53,8 +54,7 @@ class ValueCase
 
 end
 
-
-
+# wait for a set number of seconds
 class TimeoutCase < BaseCase
   def initialize(ttl)
     @timesup = Time.now + ttl
@@ -65,14 +65,14 @@ class TimeoutCase < BaseCase
   end
 end
 
-
+# always true
 class DefaultCase < BaseCase
   def ready?
     true
   end
 end
 
-
+# wait for a channel to close
 class ChannelCloseCase < BaseCase
   def initialize(ch)
     @channel = ch
@@ -83,6 +83,7 @@ class ChannelCloseCase < BaseCase
   end
 end
 
+# wait for a channel to have a message, or be closed
 class ChannelReadCase < BaseCase
   def initialize(ch)
     @channel = ch
@@ -98,5 +99,3 @@ class ChannelReadCase < BaseCase
     [ e ]
   end
 end
-
-
