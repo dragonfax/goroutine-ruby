@@ -32,4 +32,19 @@ def go_timeout(ttl)
   TimeoutCase.new(ttl)
 end
 
+# make a blocking call or proc, non-blocking
+# (by running it in another thread)
+def non_blocking(&block)
+
+  vcase = ValueCase.new
+
+  Thread.new do
+    vcase.set_value(block.call)
+  end
+
+  go_select do
+    go_case(vcase) { |r| return r }
+  end
+end
+
 DEFAULT = DefaultCase.new
