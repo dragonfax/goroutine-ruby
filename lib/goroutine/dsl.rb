@@ -20,16 +20,16 @@ def go_select(&block)
   s.test
 end
 
-def go_case(selector, &block)
+def go_case(gcase, &block)
   raise "not within a select clause" if $current_select.nil?
-  raise "must provide a case condition" if selector.nil?
+  raise "must provide a case condition" if gcase.nil?
   raise "must provide a case block" unless block_given?
 
-  $current_select.add_case(selector,&block)
+  $current_select.add_case(gcase,&block)
 end
 
 def go_timeout(ttl)
-  TimeoutSelector.new(ttl)
+  TimeoutCase.new(ttl)
 end
 
-DEFAULT = DefaultSelector.new
+DEFAULT = DefaultCase.new

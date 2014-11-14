@@ -5,16 +5,16 @@ class Select
     @cases = []
   end
 
-  def add_case(selector, &block)
-    @cases << [selector, block]
+  def add_case(gcase, &block)
+    @cases << [gcase, block]
   end
 
   def test
 
     while true
-      @cases.each do |selector, block|
-        if selector.ready?
-          arguments = selector.arguments
+      @cases.each do |gcase, block|
+        if gcase.ready?
+          arguments = gcase.arguments
           return block.call(*arguments)
         end
       end
@@ -23,13 +23,13 @@ class Select
   end
 end
 
-class BaseSelector
+class BaseCase
   def arguments
     []
   end
 end
 
-class ValueSelector
+class ValueCase
 
   attr_reader :value
 
@@ -55,7 +55,7 @@ end
 
 
 
-class TimeoutSelector < BaseSelector
+class TimeoutCase < BaseCase
   def initialize(ttl)
     @timesup = Time.now + ttl
   end
@@ -66,14 +66,14 @@ class TimeoutSelector < BaseSelector
 end
 
 
-class DefaultSelector < BaseSelector
+class DefaultCase < BaseCase
   def ready?
     true
   end
 end
 
 
-class ChannelCloseSelector < BaseSelector
+class ChannelCloseCase < BaseCase
   def initialize(ch)
     @channel = ch
   end
@@ -83,7 +83,7 @@ class ChannelCloseSelector < BaseSelector
   end
 end
 
-class ChannelReadSelector < BaseSelector
+class ChannelReadCase < BaseCase
   def initialize(ch)
     @channel = ch
   end
